@@ -34,7 +34,8 @@ defmodule BL.Monitor do
   ## Server callbacks
 
   def init(cfun) do
-    IO.puts "I am inside init.."
+    IO.puts "Hey, creating a monitor.."
+    IO.inspect cfun
     names = %{}
     refs  = %{}
     {:ok, %{:names => names, :refs => refs, :cfun => cfun}}
