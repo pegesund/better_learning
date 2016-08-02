@@ -47,14 +47,14 @@ defmodule BL.Monitor do
       ref = Process.monitor(pid)
       refs = Map.put(state.refs, ref, name)
       names = Map.put(state.names, name, pid)
-      {:noreply, %{:names => names, :refs => refs}}
+      {:noreply, %{state | :names => names, :refs => refs}}
     end
   end
 
   def handle_info({:DOWN, ref, :process, _pid, _reason}, state) do
     {name, refs} = Map.pop(state.refs, ref)
     names = Map.delete(state.names, name)
-    {:noreply,  %{:names => names, :refs => refs}}
+    {:noreply,  %{state | :names => names, :refs => refs}}
   end
 
   def handle_info(_msg, state) do
