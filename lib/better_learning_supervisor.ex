@@ -10,7 +10,7 @@ defmodule BL.Supervisor do
   def init([]) do
     IO.puts "Starting main supervisor"
     children = [
-      worker(@exercise_sup_name, [@exercise_sup_name])
+      worker(@exercise_sup_name, [@exercise_sup_name, :ok])
     ]
     supervise(children, strategy: :one_for_one)
   end

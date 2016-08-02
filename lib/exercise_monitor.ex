@@ -1,9 +1,14 @@
 defmodule BL.Monitor do
   use GenServer
   
-  def start_link(name) do
-    IO.puts "Starting Exercise Monitor"
-    GenServer.start_link(__MODULE__, :ok, [name: name])
+  def start_link(name, cfun) do
+    if name == :nil do
+      IO.puts "Starting Monitor without name"
+      GenServer.start_link(__MODULE__, cfun)
+    else
+      IO.puts "Starting Monitor with name"
+      GenServer.start_link(__MODULE__, cfun, [name: name])
+    end
   end
 
 
@@ -28,11 +33,11 @@ defmodule BL.Monitor do
 
   ## Server callbacks
 
-  def init(:ok) do
+  def init(cfun) do
     IO.puts "I am inside init.."
     names = %{}
     refs  = %{}
-    {:ok, %{:names => names, :refs => refs}}
+    {:ok, %{:names => names, :refs => refs, :cfun => cfun}}
   end
 
   def handle_call({:lookup, name}, _from, state) do
