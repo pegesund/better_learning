@@ -48,7 +48,7 @@ defmodule BL.Monitor do
     if Map.has_key?(state.names, name) do
       {:noreply, state}
     else
-      {:ok, pid} = BL.Exercise.start_link(:ok)
+      {:ok, pid} = state.cfun.(:ok)
       ref = Process.monitor(pid)
       refs = Map.put(state.refs, ref, name)
       names = Map.put(state.names, name, pid)

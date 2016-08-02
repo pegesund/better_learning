@@ -9,8 +9,9 @@ defmodule BL.Supervisor do
 
   def init([]) do
     IO.puts "Starting main supervisor"
+    cfun = fn(arg) -> BL.Exercise.start_link(arg) end
     children = [
-      worker(@exercise_sup_name, [@exercise_sup_name, :ok])
+      worker(@exercise_sup_name, [@exercise_sup_name, cfun])
     ]
     supervise(children, strategy: :one_for_one)
   end
