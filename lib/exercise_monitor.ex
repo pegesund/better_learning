@@ -32,29 +32,29 @@ defmodule BL.Monitor do
     IO.puts "I am inside init.."
     names = %{}
     refs  = %{}
-    {:ok, {names, refs}}
+    {:ok, %{:names => names, :refs => refs}}
   end
 
-  def handle_call({:lookup, name}, _from, {names, _} = state) do
-    {:reply, Map.fetch(names, name), state}
+  def handle_call({:lookup, name}, _from, state) do
+    {:reply, Map.fetch(state.names, name), state}
   end
 
-  def handle_cast({:create, name}, {names, refs}) do
-    if Map.has_key?(names, name) do
-      {:noreply, {names, refs}}
+  def handle_cast({:create, name}, state) do
+    if Map.has_key?(state.names, name) do
+      {:noreply, state}
     else
       {:ok, pid} = BL.Exercise.start_link(:ok)
       ref = Process.monitor(pid)
-      refs = Map.put(refs, ref, name)
-      names = Map.put(names, name, pid)
-      {:noreply, {names, refs}}
+      refs = Map.put(state.refs, ref, name)
+      names = Map.put(state.names, name, pid)
+      {:noreply, %{:names => names, :refs => refs}}
     end
   end
 
-  def handle_info({:DOWN, ref, :process, _pid, _reason}, {names, refs}) do
-    {name, refs} = Map.pop(refs, ref)
-    names = Map.delete(names, name)
-    {:noreply, {names, refs}}
+  def handle_info({:DOWN, ref, :process, _pid, _reason}, state) do
+    {name, refs} = Map.pop(state.refs, ref)
+    names = Map.delete(state.names, name)
+    {:noreply,  %{:names => names, :refs => refs}}
   end
 
   def handle_info(_msg, state) do
