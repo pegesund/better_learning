@@ -1,6 +1,9 @@
-# BL
+# Better learning
 
-**TODO: Add description**
+An adaptive learning system for education.
+
+Under development
+
 
 ## Installation
 
