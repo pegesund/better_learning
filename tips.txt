@@ -1,0 +1,16 @@
+    spacemacs:
+    
+    space - f -t (tree mode)
+      tree up (K)
+      tree set root (H)
+      
+    space - w - c  (close window)
+    sapce - b - b (show buffers)
+    
+    Use like this:
+    
+    BL.Supervisor.start_link
+    BL.Monitor.create(BL.Monitor, "HUPP")
+    BL.Monitor.lookup(BL.Monitor, "HUPP")
+
+    git-diff between commits: space-g-e and then commit, q to quit ediff-mode

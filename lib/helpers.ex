@@ -23,7 +23,6 @@ defmodule BL.Helpers do
   """
 
   @doc """
-  Calculate answer permutaions 
 
   Returns a list of connected answers.
 
